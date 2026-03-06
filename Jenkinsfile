@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "shilpa1819/python-flask-app"
-        TAG = "latest"
     }
 
     stages {
@@ -16,22 +15,13 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE:$TAG .'
+                sh 'docker build -t $DOCKER_IMAGE:latest .'
             }
         }
 
         stage('Push Docker Image') {
             steps {
-                withCredentials([usernamePassword(
-                credentialsId: 'dockerhub',
-                usernameVariable: 'USERNAME',
-                passwordVariable: 'PASSWORD'
-                )]) {
-                    sh '''
-                    echo $PASSWORD | docker login -u $USERNAME --password-stdin
-                    docker push $DOCKER_IMAGE:$TAG
-                    '''
-                }
+                sh 'docker push $DOCKER_IMAGE:latest'
             }
         }
 
@@ -40,10 +30,9 @@ pipeline {
                 sh '''
                 docker stop python-app || true
                 docker rm python-app || true
-                docker run -d -p 5000:5000 --name python-app $DOCKER_IMAGE:$TAG
+                docker run -d -p 5000:5000 --name python-app $DOCKER_IMAGE:latest
                 '''
             }
         }
-
     }
 }
