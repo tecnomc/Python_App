@@ -21,8 +21,17 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-                sh 'docker push $DOCKER_IMAGE:latest'
-            }
+              withCredentials([usernamePassword(
+              credentialsId: 'dockerhub',
+              usernameVariable: 'USERNAME',
+              passwordVariable: 'PASSWORD')]) {
+
+            sh '''
+            echo $PASSWORD | docker login -u $USERNAME --password-stdin
+            docker push shilpa1819/python-flask-app:latest
+            '''
+        }
+    }
         }
 
         stage('Deploy Container') {
