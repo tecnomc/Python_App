@@ -10,7 +10,7 @@ pipeline {
 
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url:'https://github.com/tecnomc/Python_App.git'
+                git branch: 'main', url: 'https://github.com/tecnomc/Python_App.git'
             }
         }
 
