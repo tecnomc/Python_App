@@ -28,7 +28,7 @@ pipeline {
 
             sh '''
             echo $PASSWORD | docker login -u $USERNAME --password-stdin
-            docker push shilpa1819/python-flask-app:latest
+            docker push shilpa1819/python-flask-app:latest1
             '''
         }
     }
@@ -39,7 +39,7 @@ pipeline {
                 sh '''
                 docker stop python-app || true
                 docker rm python-app || true
-                docker run -d -p 5000:5000 --name python-app $DOCKER_IMAGE:latest
+                docker run -d -p 5000:5000 --name python-app $DOCKER_IMAGE:latest1
                 '''
             }
         }
